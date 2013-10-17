@@ -5,10 +5,13 @@
   )
 
 (require ['pinball.ball :as 'ball])
+(require ['pinball.position :as 'position])
 
 (defn- quit-key? [c]
   (= \q c)
   )
+(defstruct controls :magnification :center :trails :clear)
+(def center (position/make 500 500))
 
 (defn handle-key [c game controls]
   (cond
@@ -36,7 +39,7 @@
                         :clear false))
         game nil
         frame (JFrame. "Pinball")
-        panel (game-panel frame controls)
+        panel (game-panel frame game controls)
         ]
     (doto panel
       (.setFocusable true)
@@ -46,6 +49,6 @@
       (.add panel)
       (.pack)
       (.setVisible true)
-      (.setDefaultCloseOperation JFrame/EXIT_ON_CLOSE)))))
+      (.setDefaultCloseOperation JFrame/EXIT_ON_CLOSE))))
 
 (defn run-game [] (game-frame))
