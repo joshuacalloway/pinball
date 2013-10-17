@@ -4,28 +4,48 @@
            (java.awt.event ActionListener KeyListener))
   )
 
-(defn game-panel [frame]
+(require ['pinball.ball :as 'ball])
+
+(defn- quit-key? [c]
+  (= \q c)
+  )
+
+(defn handle-key [c game controls]
+  (cond
+   (quit-key? c) (System/exit 1)
+   ))
+
+(defn game-panel [frame game controls]
   (proxy [JPanel ActionListener KeyListener] []
+    (keyPressed [e]
+      (handle-key (.getKeyChar e) game controls)
+      (.repaint this)
+      )
     (getPreferredSize []
-      (Dimension. 1000 1000)
+      (Dimension. 500 500)
       )
     
     )
   )
+
   
-
-
 (defn game-frame []
   (let [
+        controls (ref (struct-map controls
+                        :center center
+                        :clear false))
+        game nil
         frame (JFrame. "Pinball")
-        panel (game-panel frame)
+        panel (game-panel frame controls)
         ]
     (doto panel
-      (.setFocusable true))
+      (.setFocusable true)
+      (.addKeyListener panel)
+      )
     (doto frame
       (.add panel)
       (.pack)
       (.setVisible true)
-      (.setDefaultCloseOperation JFrame/EXIT_ON_CLOSE))))
+      (.setDefaultCloseOperation JFrame/EXIT_ON_CLOSE)))))
 
 (defn run-game [] (game-frame))
