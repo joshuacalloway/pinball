@@ -3,4 +3,4 @@
 (use 'pinball.game)
 
 
-(defn -main [& args] (run-gamex))
+(defn -main [& args] (run-game))
