@@ -24,6 +24,8 @@
       (handle-key (.getKeyChar e) game controls)
       (.repaint this)
       )
+    (keyReleased [e])
+    (keyTyped [e])
     (getPreferredSize []
       (Dimension. 500 500)
       )
