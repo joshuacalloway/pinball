@@ -30,3 +30,17 @@
         ]
     (is (= (+ 1 (totalballs? g)) (totalballs? (game/play-ball g))))))
 
+
+(deftest play-1000-balls
+  (testing "1000 balls on a pinball game")
+  (let [
+        n 1000
+        playedgame (loop [x n
+                          g (game/default-game [31  19 50])]
+                     (if (zero? x)
+                       g
+                       (recur (dec x) (game/play-ball g))))
+        totalballs? #(reduce + (map (fn[x] (:numballs x)) (:slots %)))]
+    (is (= n (totalballs? playedgame)))))
+
+        
