@@ -1,6 +1,6 @@
 (ns pinballmain (:gen-class))
 
-(use 'pinball.game)
+(use 'pinball.gamegui)
 
 
 (defn -main [& args] (run-game))

@@ -1,45 +1,31 @@
-(ns pinball.game
-    (:use seesaw.core seesaw.border)
-    (:import (java.awt Color))
-    )
+(ns pinball.game)
+ 
+(defrecord Game [name slots])
 
-(require ['pinball.slot :as 'slot])
+(defn make ([n s] (Game. n s)))
 
-(def game-canvas
-     (vertical-panel
-      :background Color/GRAY
-      :border (line-border :color Color/BLACK :thickness 5)
-      :items [(label :border (line-border)
-                     :text "this label"
-                     :id
-                     :link
-                     :cursor
-                     :hand)
-      (button :id :button :text "This")]
-      ))
+(use '[pinball.slot :exclude [make] :as slot])
 
-(def game-controls
-     (horizontal-panel
-      :items [
-      (button :id :button :text "One Ball")
-      (button :id :button :text "100 Balls")
+;(require ['pinball.slot :as 'slot])
 
-      ]
-      ))
-      
-(defn game-gui []
-  (invoke-later
-   (-> (frame :title "Pinball Demo"
-              :width 400 :height 600
-              :content (border-panel
-                        :center game-canvas
-                        :south game-controls
-                        )
-              :on-close :exit)
-    pack!
-    show!))
-  )
+(defn default-game [probabilities]
+  (pinball.game/make "default game" (map slot/default-make probabilities)))
+
+   
 
 
-      
-(defn run-game [] (game-gui))
+(defn game-valid? [agame] (= 100 (reduce + (map #(:probability %) (:slots agame)))))
+
+(def foo "foox")
+
+(defn weighted-rand-choice [agame]
+  (let [w (reductions #(+ % %2) (map #(:probability %) (:slots agame)))
+        r (rand-int (last w))]
+    (nth (:slots agame) (count (take-while #( <= % r ) w)))))
+
+(defn play-ball [agame]
+  (let [slotpicked (weighted-rand-choice agame)
+        newslot (slot/add-ball slotpicked)]
+    (make (:name agame) (cons newslot (filter #(not= (:name slotpicked) (:name %)) (:slots agame))))))
+
+
