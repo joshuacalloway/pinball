@@ -10,6 +10,14 @@
   (is (= true (game/game-valid? (game/default-game [10 50 40]))))
   )
 
+(deftest slotid-is-valid
+  (testing "Slot id is valid without spaces")
+  (is (= (keyword "Slot_with_50%_probability") (:id (slot/default-make 50)))))
+
+(deftest slotid-is-valid2
+  (testing "Slot id is valid without spaces")
+  (is (= (keyword "slot_a") (:id (slot/make "slot a" 50)))))
+
 (deftest invalidgame-is-valid
   (testing "An invalid game should be invalid")
   (is (= false (game/game-valid? (game/default-game [15 50 40])))

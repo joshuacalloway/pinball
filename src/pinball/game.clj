@@ -6,17 +6,11 @@
 
 (use '[pinball.slot :exclude [make] :as slot])
 
-;(require ['pinball.slot :as 'slot])
-
 (defn default-game [probabilities]
   (pinball.game/make "default game" (map slot/default-make probabilities)))
 
-   
-
 
 (defn game-valid? [agame] (= 100 (reduce + (map #(:probability %) (:slots agame)))))
-
-(def foo "foox")
 
 (defn weighted-rand-choice [agame]
   (let [w (reductions #(+ % %2) (map #(:probability %) (:slots agame)))
