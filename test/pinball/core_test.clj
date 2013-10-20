@@ -33,22 +33,19 @@
 (deftest simple-play-ball-works
   (testing "Simple play ball should increments # of balls in all slots by 1 ")
   (let [g (game/default-game [0 70 15 15])
-        g++ (game/play-ball g)
+        g++ (game/play-ball g 1)
         totalballs? #(reduce + (map (fn[x] (:numballs x)) (:slots %)))
         ]
-    (is (= (+ 1 (totalballs? g)) (totalballs? (game/play-ball g))))))
+    (is (= (+ 1 (totalballs? g)) (totalballs? g++)))))
 
 
 (deftest play-1000-balls
   (testing "1000 balls on a pinball game")
   (let [
         n 1000
-        playedgame (loop [x n
-                          g (game/default-game [31  19 50])]
-                     (if (zero? x)
-                       g
-                       (recur (dec x) (game/play-ball g))))
+        g (game/default-game [31  19 50])
+        g++ (game/play-ball g 1000)
         totalballs? #(reduce + (map (fn[x] (:numballs x)) (:slots %)))]
-    (is (= n (totalballs? playedgame)))))
+    (is (= (+ 1000 (totalballs? g)) (totalballs? g++)))))
 
         

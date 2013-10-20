@@ -19,17 +19,18 @@
    :border (line-border :color Color/BLACK :thickness 5)
    :items (vec (map #(slotgui %) (:slots g)))))
 
+; Updates a single slot
 (defn update-slot [acanvas aslot]
   (let [ labels (select acanvas [:<javax.swing.JLabel>])
         found (some #(if (= (config % :id) (:id aslot)) %) labels)
         ]
-    (println "aslot is : " aslot)
-    (println "found is : " found)
     (config! found :text (slotgui-text aslot))))
 
+; Updates Game canvas with the new slots
 (defn update-canvas [acanvas slots]
   (doseq [i slots] (update-slot acanvas i)))
-  
+
+; Add listeners to buttons
 (defn game-controls [agame acanvas]
   (let [ myfn #(game/play-ball agame %)
         ]
