@@ -30,18 +30,18 @@
 (defn update-canvas [acanvas slots]
   (doseq [i slots] (update-slot acanvas i)))
   
-
-
-
 (defn game-controls [agame acanvas]
-  (println "in game-controls")
-  (horizontal-panel
-   :items [
-           (button :id :button1 :text "One Ball" :listen [:action (fn [e] (update-canvas acanvas (:slots (game/play-ball agame))  )) ])
-           (button :id :button2 :text "100 Balls")
-           (button :id :button3 :text "1,000 Balls")
-           (button :id :button4 :text "10,000 Balls")]
-   )
+  (let [ myfn #(game/play-ball agame %)
+        ]
+    (horizontal-panel
+     :items [
+           (button :id :button1 :text "One Ball" :listen [:action (fn [e] (update-canvas acanvas (:slots (myfn 1))  )) ])
+           (button :id :button2 :text "100 Balls" :listen [:action (fn [e] (update-canvas acanvas (:slots (myfn 100))  )) ])
+           (button :id :button3 :text "1,000 Balls" :listen [:action (fn [e] (update-canvas acanvas (:slots (myfn 1000))  )) ])
+           (button :id :button4 :text "10,000 Balls" :listen [:action (fn [e] (update-canvas acanvas (:slots (myfn 10000))  )) ])
+           ]
+     )
+    )
   )
 
 (defn create-gamegui [g]

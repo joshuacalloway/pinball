@@ -17,9 +17,14 @@
         r (rand-int (last w))]
     (nth (:slots agame) (count (take-while #( <= % r ) w)))))
 
-(defn play-ball [agame]
+(defn play-ball [agame n]
   (let [slotpicked (weighted-rand-choice agame)
-        newslot (slot/add-ball slotpicked)]
-    (make (:name agame) (cons newslot (filter #(not= (:name slotpicked) (:name %)) (:slots agame))))))
+        newslot (slot/add-ball slotpicked)
+        oneballplayed (make (:name agame) (cons newslot (filter #(not= (:name slotpicked) (:name %)) (:slots agame))))           
+        ]
+    (if (= n 1)
+      oneballplayed
+      (recur oneballplayed (dec n)))))
+    
 
 
