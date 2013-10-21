@@ -1,10 +1,10 @@
 # pinball
 
-A Clojure library designed to ... well, that part is up to you.
+A simple clojure program.  My first clojure coding ever.
 
 ## Usage
 
-FIXME
+![Alt text](pinball.jpg "Screen shot")
 
 ## License
 
