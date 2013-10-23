@@ -7,7 +7,7 @@
                  [seesaw "1.4.4"]
                  ]
   :source-path "src"
-  
+  :aot [pinballmain]
   :main pinballmain
   
   )
