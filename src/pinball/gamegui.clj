@@ -58,5 +58,5 @@
         show!)))
   
       
-(defn run-game [] (create-gamegui (game/default-game [31 19 50])))
+(defn run-game [] (create-gamegui (game/random-game)))
 

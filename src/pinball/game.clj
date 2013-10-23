@@ -10,6 +10,13 @@
 (defn default-game [probabilities]
   (pinball.game/make "default game" (map slot/default-make probabilities)))
 
+(defn random-game []
+  (let [ b (+ 2 (rand-int 97))
+         a (rand-int (- b 1))
+         probabilities [a (- b a) (- 100 b)]
+       ]
+  (pinball.game/make "random game" (map slot/default-make probabilities))))
+
 
 ; A valid game has probabilities that total 100
 (defn game-valid? [agame] (= 100 (reduce + (map #(:probability %) (:slots agame)))))
